@@ -1,0 +1,343 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tests</title>
+    <meta name="description" content="Tests">
+    <meta name="author" content="Michał Niegrzybowski">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/style.css" />
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/fsreveal.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <script language="javascript" type="text/javascript">
+        function init()
+        {
+            websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+            websocket.onmessage = function(evt) { location.reload(); };
+        }
+        window.addEventListener("load", init, false);
+    </script>
+</head>
+<body>
+    <div class="reveal">
+        
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+<h2>Tests</h2>
+<br />
+<br />
+</section>
+<section >
+<section >
+<h2>Problem</h2>
+<ul>
+<li>lack of confidence when changing code</li>
+<li>a lot of time needed to check if our changes are working correctly</li>
+<li>complicated code with a lot of dependencies</li>
+<li>SOLID principles are gone</li>
+</ul>
+</section>
+<section >
+<h3>Current flow</h3>
+<ul>
+<li>add code to implement fix something without thinking about code nearby, without any boy scout rule</li>
+</ul>
+</section>
+<section >
+<h3>Current status</h3>
+<ul>
+<li>bugs comes back to a developer several times, cause he didn't think about some rare scenarios when checking if everything works correctly</li>
+<li>new bugs comes out, because when changing code to implement a new scenario the previous ones break down</li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h2>Tests (theoretical)</h2>
+<ul>
+<li>it's a kind of a new form of documentation of a code</li>
+<li>it's a code of conduct signed by all developers which tells how the code they wrote should work</li>
+<li>helps in review code, cause we have an immediate information how this particular piece(s) of code should work</li>
+</ul>
+</section>
+<section >
+<h3>What is it and how it looks like?</h3>
+<ul>
+<li><code>a procedure intended to establish the quality, performance, or reliability of something, especially before it is taken into widespread use.</code></li>
+</ul>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">[&lt;Fact&gt;]
+<span class="k">public</span> <span class="k">async</span> Task Get_WhenSomething_ReturnsSomehingElse()
+{
+    <span class="c">//assert</span>
+    <span class="k">int</span> Add(<span class="k">int</span> a, <span class="k">int</span> b) <span class="o">=</span><span class="o">&gt;</span> a <span class="o">+</span> b;
+    <span class="c">//act</span>
+    <span class="k">var</span> result <span class="o">=</span> Add(<span class="n">6</span>, <span class="n">4</span>);
+    <span class="c">//arrange</span>
+    result.ShouldBe(<span class="n">10</span>);
+}
+</code></pre></td></tr></table>
+</section>
+<section >
+<h3>Tests Pyramid</h3>
+<p><img src="https://jfiaffe.files.wordpress.com/2014/09/tests-pyramid.png" alt="Test pyramid" /></p>
+</section>
+<section >
+<h3>TDD</h3>
+<ul>
+<li>It's not only about writting tests</li>
+<li>It's not about duplicating tester job</li>
+<li>It's a technic of creating a software</li>
+<li>
+Key aspects of TDD:
+<ul>
+<li>keep high quality of code</li>
+<li>trying to not misunderstand bussines rules</li>
+<li>keep the simplicity</li>
+<li>YAGNI</li>
+<li>KISS</li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Tested code structure</h3>
+<ul>
+<li>Strong shims</li>
+<li>Loosely coupled classes</li>
+<li>YAGNI</li>
+<li>KISS</li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h2>Test Types</h2>
+</section>
+<section >
+<h3>Unit</h3>
+<ul>
+<li>test only a single piece of code/functionallity</li>
+<li>we are not using real database/external services here</li>
+<li>external dependencies are mocked</li>
+<li>stub vs mock</li>
+</ul>
+</section>
+<section >
+<h3>Integration</h3>
+<ul>
+<li>testing an integration between several components</li>
+<li>we are not using mocks/stubs here only real componets</li>
+</ul>
+</section>
+<section >
+<h3>Acceptance</h3>
+<ul>
+<li>Test bussines rules</li>
+<li>Test whole application backend and front-end at once</li>
+</ul>
+</section>
+<section >
+<h3>Property-Based</h3>
+<ul>
+<li>assertion phase checks only properties of a result</li>
+<li>not concrete assertion like 1 = 1</li>
+<li>for example <code>sum</code> method should return the same result no mather what is the order of args</li>
+</ul>
+</section>
+<section >
+<h3>Performance</h3>
+<ul>
+<li>tests whole or a part application under heavy load</li>
+<li>checks how application work under certain circumstances</li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h2>Tests approaches</h2>
+</section>
+<section >
+<h3>TDD</h3>
+<ul>
+<li>Red - Green - Refactor</li>
+<li>Write small piece of a test then implementation which passes this/those tests</li>
+<li>repat it till business rules are implemented</li>
+<li>at the end refactor code and check if tests are still green</li>
+</ul>
+</section>
+<section >
+<h3>Test first</h3>
+<ul>
+<li>we write tests at first</li>
+<li>then we write implementation while tests are running in a background</li>
+<li>at the end we have ready stub tests and logic</li>
+</ul>
+</section>
+<section >
+<h3>Golden master</h3>
+<ul>
+<li>approach to test legacy/existing code</li>
+<li>we try to minimize opportunity to introduce errors while refactoring the code</li>
+<li>write a lot of logs and with small steps check if we get the same results after the method ends</li>
+</ul>
+</section>
+<section >
+<h3>Tests after code</h3>
+<ul>
+<li>at first we write code then we write test to this code</li>
+<li>wrong perspective cause we should test "how the code should work" not "how it works"</li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h2>Good practices</h2>
+<ul>
+<li>write at least empty test methods before implementation so we would have clear vision what we want to implement</li>
+<li>if you see that you mock a lot of dependencies in a test it is a good sign that tested code should be refactor</li>
+<li>for every <code>branching</code> you should have separate tests</li>
+<li>instead of writing unit tests with in-memory db or mocking some rest services it is worth to write integration tests without any mocks</li>
+<li>it is worth to split different type of tests to separate projects so not all of them would be run after the build</li>
+<li>use full names for variables so test would be easily read across the whole file</li>
+<li>try to be more explicit than in a business code</li>
+<li>avoid leaking a business logic to test code</li>
+<li>don't use word <code>test</code> in a test method</li>
+</ul>
+</section>
+<section >
+<h3>Test naming</h3>
+<ul>
+<li>MethodName<em>StateUnderTest</em>ExpectedBehavior &lt;- this one we are using</li>
+<li>MethodName<em>ExpectedBehavior</em>StateUnderTest</li>
+<li>test[Feature being tested]</li>
+<li>Feature to be tested</li>
+<li>Should<em>ExpectedBehavior</em>When_StateUnderTest</li>
+<li>When<em>StateUnderTest</em>Expect_ExpectedBehavior</li>
+<li>Given<em>Preconditions</em>When<em>StateUnderTest</em>Then_ExpectedBehavior</li>
+</ul>
+</section>
+<section >
+<h3>Test structure</h3>
+<ul>
+<li>AAA</li>
+<li>Setup/Teardown</li>
+<li>Inline Data</li>
+</ul>
+</section>
+<section >
+<h3>Testing private methods</h3>
+<ul>
+<li>extract as separate class</li>
+<li>mark as protected and inherit in a test class from a tested class</li>
+<li>not test it at all (whatttttttttttt)</li>
+</ul>
+</section>
+<section >
+<h3>Mocks and stubs</h3>
+<ul>
+<li>mock we don't care about the internal implementation</li>
+<li>stub we care about internal implementation</li>
+</ul>
+</section>
+<section >
+<h3>Test libraries</h3>
+<ul>
+<li>XUnit &lt;- we use it</li>
+<li>NUnit</li>
+<li>Machine.Specifications</li>
+<li>Expecto</li>
+<li>FsCheck</li>
+<li>Verify</li>
+<li>Karma</li>
+<li>Jest</li>
+</ul>
+</section>
+<section >
+<h3>Mock libraries</h3>
+<ul>
+<li>Moq</li>
+<li>Rhino.Mocks</li>
+<li>AutoFixture</li>
+</ul>
+</section>
+</section>
+<section >
+<h2>Thanks</h2>
+</section>
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+        // Add the nohighlight class and data-noescape attribute to code elements that have already been formatted by FSharp.Formatting
+        $('pre.highlighted code').addClass('nohighlight').attr('data-noescape', '');
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
+</html>
+
